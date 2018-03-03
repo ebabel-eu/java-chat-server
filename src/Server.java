@@ -1,13 +1,12 @@
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
-
+  private static ServerSocket serverSocket = null;
+  private static int portNumber = 4444;
 
   public static void main(String[] args) {
-    int portNumber = 4444;
-    ServerSocket serverSocket = null;
-
     try {
       serverSocket = new ServerSocket(portNumber);
       acceptClients();
@@ -18,7 +17,13 @@ public class Server {
   }
 
   private static void acceptClients() {
-
+    while (true) {
+      try {
+        Socket socket = serverSocket.accept();
+      } catch (IOException e) {
+        System.out.println("Accept failed on " + portNumber);
+      }
+    }
   }
 
 }
