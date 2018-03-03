@@ -1,3 +1,3 @@
 # java-chat-server
 
-Server side Java chat server, following tutorial from http://www.instructables.com/id/Creating-a-Chat-Server-Using-Java/
+Server side Java chat server, following a [tutorial](http://pirate.shu.edu/~wachsmut/Teaching/CSAS2214/Virtual/Lectures/chat-client-server.html) 

@@ -19,8 +19,6 @@ public class Server {
   private static void acceptClients() {
     while (true) {
       try {
-        System.out.println("hello world 4");
-
         Socket socket = serverSocket.accept();
         System.out.println("Listening on port" + portNumber);
       } catch (IOException e) {
