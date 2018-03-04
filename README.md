@@ -3,18 +3,25 @@ Server side Java chat server, following a [tutorial](http://pirate.shu.edu/~wach
 
 There are 2 main parts: the chat server and the chat client.
 
-## Build the chat server
-```$xslt
+## Build both Chat server and client
+```
+javac -d out/production/java-chat-server/ src/ChatServer.java src/ChatClient.java
+```
+
+## Chat server
+
+### Build the chat server
+```
 javac -d out/production/java-chat-server/ src/ChatServer.java
 ```
 
 or
-```$xslt
+```
 javac -verbose -d out/production/java-chat-server/ src/ChatServer.java
 ```
 
-## Run the chat server
-```$xslt
+### Run the chat server
+```
 java -cp [classpath] ChatServer [port-number]
 ```
 
@@ -22,14 +29,29 @@ java -cp [classpath] ChatServer [port-number]
 
 [port-number] could be `4444` or `8080` for example.
 
-```$xslt
+```
 java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatServer 4444
 ```
 
 For more details, you could optionally use the `-verbose` option.
 
-```$xslt
+```
 java -verbose -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatServer 4444
 ```
 
 To end the execution, use the keys `CTRL C` in Terminal.
+
+## Chat client
+
+### Build the chat client
+```
+javac -d out/production/java-chat-server/ src/ChatClient.java
+```
+
+### Run the chat client
+```
+java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient 4444
+```
+
+
+
