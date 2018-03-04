@@ -9,7 +9,7 @@ public class ChatClient {
   private DataInputStream console = null;
   private DataOutputStream streamOut = null;
 
-  public ChatClient(String serverName, int serverPort) throws IOException {
+  private ChatClient(String serverName, int serverPort) throws IOException {
     System.out.println("Establishing connection. Please wait...");
 
     try {
@@ -35,27 +35,9 @@ public class ChatClient {
     }
   }
 
-  public void start() throws IOException {
+  private void start() throws IOException {
     console = new DataInputStream(System.in);
     streamOut = new DataOutputStream(socket.getOutputStream());
-  }
-
-  public void stop() {
-    try {
-      if (console   != null) {
-        console.close();
-      }
-
-      if (streamOut != null) {
-        streamOut.close();
-      }
-
-      if (socket != null) {
-        socket.close();
-      }
-    } catch(IOException e) {
-      throw new RuntimeException("Error closing");
-    }
   }
 
   public static void main(String args[]) throws RuntimeException, IOException {
