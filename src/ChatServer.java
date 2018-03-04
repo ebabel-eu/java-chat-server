@@ -23,7 +23,9 @@ public class ChatServer {
     boolean done = false;
 
     while (!done) {
-      String line = streamIn.readUTF();
+      String line = "";
+
+      if (streamIn.available() > 0) line = streamIn.readUTF();
 
       if (line.length() > 0) System.out.println(line);
 
@@ -46,6 +48,6 @@ public class ChatServer {
     if (args.length != 1) throw new RuntimeException("Usage: java -cp [classpath] ChatServer [port-number]");
 
     int port = Integer.parseInt(args[0]);
-    ChatServer server = new ChatServer(port);
+    new ChatServer(port);
   }
 }
