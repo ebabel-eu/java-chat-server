@@ -19,3 +19,9 @@ To end the execution, use the keys `CTRL C` in Terminal.
 ```
 java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient localhost 4444
 ```
+
+You can now type a message, press `ENTER` and see that message displayed on the Chat Server.
+
+You may kill the server from the client by sending either the message `/q` or `/quit`
+
+The current version only supports one server and one single client.
