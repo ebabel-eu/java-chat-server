@@ -3,6 +3,11 @@ Server side Java chat server, following a [tutorial](http://pirate.shu.edu/~wach
 
 There are 2 main parts: the chat server and the chat client.
 
+## Build the chat server
+```$xslt
+javac -d out/production/java-chat-server/ src/ChatServer.java
+```
+
 ## Run the chat server
 ```$xslt
 java -cp [classpath] ChatServer [port-number]
