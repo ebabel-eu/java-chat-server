@@ -25,6 +25,12 @@ public class ChatServer {
 
 
   public static void main(String args[]) {
-    new ChatServer(4444);
+    ChatServer server = null;
+
+    if (args.length != 1) {
+      System.out.println("Usage: java -cp [classpath] ChatServer [port-number]");
+    } else {
+      server = new ChatServer(Integer.parseInt(args[0]));
+    }
   }
 }
