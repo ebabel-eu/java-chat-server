@@ -8,28 +8,22 @@ public class ChatServer {
   private ServerSocket server = null;
   private DataInputStream streamIn = null;
 
-  public ChatServer(int port) {
+  public ChatServer(int port) throws IOException {
     System.out.println("Please wait, binding to port " + port);
 
-    try {
-      server = new ServerSocket(port);
-      System.out.println("Server started " + server);
-      System.out.println("Waiting for a client...");
+    server = new ServerSocket(port);
+    System.out.println("Server started " + server + " - waiting for a client...");
 
-      socket = server.accept();
-      System.out.println("Client accepted " + socket);
-    } catch (IOException e) {
-      System.out.println(e.getMessage());
-    }
+    socket = server.accept();
+    System.out.println("Client accepted " + socket);
   }
 
-  public static void main(String args[]) {
-    ChatServer server = null;
-
+  public static void main(String args[]) throws IOException {
     if (args.length != 1) {
-      System.out.println("Usage: java -cp [classpath] ChatServer [port-number]");
-    } else {
-      server = new ChatServer(Integer.parseInt(args[0]));
+      throw new RuntimeException("Usage: java -cp [classpath] ChatServer [port-number]");
     }
+
+    int port = Integer.parseInt(args[0]);
+    ChatServer server = new ChatServer(port);
   }
 }
