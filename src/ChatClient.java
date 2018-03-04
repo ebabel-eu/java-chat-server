@@ -40,13 +40,31 @@ public class ChatClient {
     streamOut = new DataOutputStream(socket.getOutputStream());
   }
 
-  public static void main(String args[]) throws IOException {
-    ChatClient client = null;
+  public void stop() {
+    try {
+      if (console   != null) {
+        console.close();
+      }
 
-    if (args.length != 2) {
-      System.out.println("Usage: java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient [host] [port]");
-    } else {
-      client = new ChatClient(args[0], Integer.parseInt(args[1]));
+      if (streamOut != null) {
+        streamOut.close();
+      }
+
+      if (socket != null) {
+        socket.close();
+      }
+    } catch(IOException e) {
+      throw new RuntimeException("Error closing");
     }
+  }
+
+  public static void main(String args[]) throws RuntimeException, IOException {
+    if (args.length != 2) {
+      throw new RuntimeException("Usage: java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient [host] [port]");
+    }
+
+    String host = args[0];
+    int port = Integer.parseInt(args[1]);
+    ChatClient client = new ChatClient(host, port);
   }
 }
