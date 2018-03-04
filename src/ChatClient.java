@@ -39,4 +39,14 @@ public class ChatClient {
     console = new DataInputStream(System.in);
     streamOut = new DataOutputStream(socket.getOutputStream());
   }
+
+  public static void main(String args[]) throws IOException {
+    ChatClient client = null;
+
+    if (args.length != 2) {
+      System.out.println("Usage: java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient [host] [port]");
+    } else {
+      client = new ChatClient(args[0], Integer.parseInt(args[1]));
+    }
+  }
 }

@@ -50,8 +50,5 @@ javac -d out/production/java-chat-server/ src/ChatClient.java
 
 ### Run the chat client
 ```
-java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient 4444
+java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient
 ```
-
-
-
