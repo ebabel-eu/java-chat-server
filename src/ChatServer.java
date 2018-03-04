@@ -24,7 +24,9 @@ public class ChatServer {
 
     while (!done) {
       String line = streamIn.readUTF();
-      System.out.println(line);
+
+      if (line.length() > 0) System.out.println(line);
+
       done = line.equals("/quit") || line.equals("/q");
     }
 
@@ -36,19 +38,12 @@ public class ChatServer {
   }
 
   private void close() throws IOException {
-    if (socket != null) {
-      socket.close();
-    }
-
-    if (streamIn != null) {
-      streamIn.close();
-    }
+    if (socket != null) socket.close();
+    if (streamIn != null) streamIn.close();
   }
 
   public static void main(String args[]) throws IOException {
-    if (args.length != 1) {
-      throw new RuntimeException("Usage: java -cp [classpath] ChatServer [port-number]");
-    }
+    if (args.length != 1) throw new RuntimeException("Usage: java -cp [classpath] ChatServer [port-number]");
 
     int port = Integer.parseInt(args[0]);
     ChatServer server = new ChatServer(port);

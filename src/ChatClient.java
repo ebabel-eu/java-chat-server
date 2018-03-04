@@ -36,6 +36,6 @@ public class ChatClient {
 
     String host = args[0];
     int port = Integer.parseInt(args[1]);
-    ChatClient client = new ChatClient(host, port);
+    new ChatClient(host, port);
   }
 }
