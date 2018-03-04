@@ -2,41 +2,30 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class ChatClient {
   private Socket socket = null;
-  private DataInputStream console = null;
+  private DataInputStream streamIn = null;
   private DataOutputStream streamOut = null;
 
   private ChatClient(String serverName, int serverPort) throws IOException {
     System.out.println("Establishing connection. Please wait...");
 
-    try {
-      socket = new Socket(serverName, serverPort);
-      System.out.println("Connected " + socket);
-      start();
-    } catch (UnknownHostException e) {
-      System.out.println("Host unknown "+ e.getMessage());
-    } catch(IOException e) {
-      System.out.println("Unexpected exception " + e.getMessage());
-    }
+    socket = new Socket(serverName, serverPort);
+    System.out.println("Connected " + socket);
+    start();
 
     String line = "";
 
     while (!line.equals("/quit") && !line.equals("/q")) {
-      try {
-        line = console.readLine();
-        streamOut.writeUTF(line);
-        streamOut.flush();
-      } catch (IOException e) {
-        System.out.println("Sending error " + e.getMessage());
-      }
+      line = streamIn.readLine();
+      streamOut.writeUTF(line);
+      streamOut.flush();
     }
   }
 
   private void start() throws IOException {
-    console = new DataInputStream(System.in);
+    streamIn = new DataInputStream(System.in);
     streamOut = new DataOutputStream(socket.getOutputStream());
   }
 

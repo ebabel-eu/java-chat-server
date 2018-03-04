@@ -1,3 +1,4 @@
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -8,7 +9,7 @@ public class ChatServer {
   private ServerSocket server = null;
   private DataInputStream streamIn = null;
 
-  public ChatServer(int port) throws IOException {
+  private ChatServer(int port) throws IOException {
     System.out.println("Please wait, binding to port " + port);
 
     server = new ServerSocket(port);
@@ -16,6 +17,32 @@ public class ChatServer {
 
     socket = server.accept();
     System.out.println("Client accepted " + socket);
+
+    open();
+
+    boolean done = false;
+
+    while (!done) {
+      String line = streamIn.readUTF();
+      System.out.println(line);
+      done = line.equals("/quit") || line.equals("/q");
+    }
+
+    close();
+  }
+
+  private void open() throws IOException {
+    streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+  }
+
+  private void close() throws IOException {
+    if (socket != null) {
+      socket.close();
+    }
+
+    if (streamIn != null) {
+      streamIn.close();
+    }
   }
 
   public static void main(String args[]) throws IOException {
