@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ChatServer {
+public class ChatServer implements Runnable {
   private Socket socket = null;
   private ServerSocket server = null;
+  private Thread thread = null;
   private DataInputStream streamIn = null;
 
   private ChatServer(int port) throws IOException {
@@ -15,24 +16,36 @@ public class ChatServer {
     server = new ServerSocket(port);
     System.out.println("Server started " + server + " - waiting for a client...");
 
-    socket = server.accept();
-    System.out.println("Client accepted " + socket);
+    start();
+  }
 
-    open();
+  public void run() {
+    while (thread != null) {
+      System.out.println("Waiting for a client...");
 
-    boolean done = false;
+      try {
+        socket = server.accept();
+        System.out.println("Client accepted " + socket);
+        open();
+        boolean done = false;
 
-    while (!done) {
-      String line = "";
-
-      if (streamIn.available() > 0) line = streamIn.readUTF();
-
-      if (line.length() > 0) System.out.println(line);
-
-      done = line.equals("/quit") || line.equals("/q");
+        while (!done) {
+          String line = streamIn.readUTF();
+          System.out.println(line);
+          done = line.equals("/quit") || line.equals("/q");
+        }
+        close();
+      } catch (IOException error) {
+        throw new RuntimeException(error.getMessage());
+      }
     }
+  }
 
-    close();
+  public void start() {
+    if (thread == null) {
+      thread = new Thread(this);
+      thread.start();
+    }
   }
 
   private void open() throws IOException {
@@ -40,14 +53,17 @@ public class ChatServer {
   }
 
   private void close() throws IOException {
-    if (socket != null) socket.close();
-    if (streamIn != null) streamIn.close();
+    if (socket != null) {
+      socket.close();
+    }
+    if (streamIn != null) {
+      streamIn.close();
+    }
   }
 
   public static void main(String args[]) throws IOException {
     if (args.length != 1) throw new RuntimeException("Usage: java -cp [classpath] ChatServer [port-number]");
 
-    int port = Integer.parseInt(args[0]);
-    new ChatServer(port);
+    new ChatServer(Integer.parseInt(args[0]));
   }
 }
