@@ -5,38 +5,33 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ChatServer implements Runnable {
-  private ServerSocket server = null;
+  private ServerSocket server;
   private Thread thread = null;
+  private ChatServerThread client = null;
 
   private ChatServer(int port) throws IOException {
-    System.out.println("Please wait, binding to port " + port);
-
+    // Binding to port.
     server = new ServerSocket(port);
-    System.out.println("Server started " + server + " - waiting for a client...");
 
+    // Starts server, then waiting for a client.
     start();
   }
 
   public void run() {
     while (thread != null) {
-      System.out.println("Waiting for a client...");
-
       try {
-        socket = server.accept();
-        System.out.println("Client accepted " + socket);
-        open();
-        boolean done = false;
-
-        while (!done) {
-          String line = streamIn.readUTF();
-          System.out.println(line);
-          done = line.equals("/quit") || line.equals("/q");
-        }
-        close();
-      } catch (IOException error) {
-        throw new RuntimeException(error.getMessage());
+        addThread(server.accept());
+      } catch (IOException ex) {
+        System.out.println("[ERROR]" + ex.getMessage());
       }
     }
+  }
+
+  public void addThread(Socket socket) throws IOException {
+    // Client accepted.
+    client = new ChatServerThread(socket);
+    client.open();
+    client.start();
   }
 
   public void start() {
@@ -46,21 +41,10 @@ public class ChatServer implements Runnable {
     }
   }
 
-  private void open() throws IOException {
-    streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-  }
-
-  private void close() throws IOException {
-    if (socket != null) {
-      socket.close();
-    }
-    if (streamIn != null) {
-      streamIn.close();
-    }
-  }
-
   public static void main(String args[]) throws IOException {
-    if (args.length != 1) throw new RuntimeException("Usage: java -cp [classpath] ChatServer [port-number]");
+    if (args.length != 1) {
+      throw new RuntimeException("[ERROR] Usage: java -cp [classpath] ChatServer [port-number]");
+    }
 
     new ChatServer(Integer.parseInt(args[0]));
   }

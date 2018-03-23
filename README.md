@@ -5,7 +5,7 @@ There are 2 main parts: the chat server and the chat client.
 
 ## Build both Chat server and client
 ```
-javac -d out/production/java-chat-server/ src/ChatServer.java src/ChatClient.java
+javac -d out/production/java-chat-server/ src/*.java
 ```
 
 ## Run the chat server
