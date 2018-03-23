@@ -33,6 +33,7 @@ public class ChatServerThread extends Thread {
   public void close() {
     if (socket != null) {
       try {
+        System.out.println("[INFO] Server thread " + ID + " is closing.");
         socket.close();
       } catch (IOException e) {
         System.out.println("[ERROR]" + e.getMessage());

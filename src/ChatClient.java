@@ -9,10 +9,10 @@ public class ChatClient {
   private DataOutputStream streamOut = null;
 
   private ChatClient(String serverName, int serverPort) throws IOException {
-    System.out.println("Establishing connection. Please wait...");
-
+    System.out.println("[INFO] Establishing connection. Please wait...");
     socket = new Socket(serverName, serverPort);
-    System.out.println("Connected " + socket);
+
+    System.out.println("[INFO] Connected");
     start();
 
     String line = "";
@@ -31,7 +31,7 @@ public class ChatClient {
 
   public static void main(String args[]) throws RuntimeException, IOException {
     if (args.length != 2) {
-      throw new RuntimeException("Usage: java -cp /Users/nadjib/workspace/java-chat-server/out/production/java-chat-server/ ChatClient [host] [port]");
+      throw new RuntimeException("[ERROR] Correct usage from main directory: java -cp ./out/production/java-chat-server/ ChatClient [host] [port]");
     }
 
     String host = args[0];
