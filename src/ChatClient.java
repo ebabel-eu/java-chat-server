@@ -31,7 +31,7 @@ public class ChatClient {
 
   public static void main(String args[]) throws RuntimeException, IOException {
     if (args.length != 2) {
-      throw new RuntimeException("[ERROR] Correct usage from main directory: java -cp ./out/production/java-chat-server/ ChatClient [host] [port]");
+      throw new RuntimeException("[ERROR] Correct usage: see README.md");
     }
 
     String host = args[0];
