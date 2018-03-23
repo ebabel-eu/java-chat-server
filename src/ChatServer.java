@@ -5,10 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ChatServer implements Runnable {
-  private Socket socket = null;
   private ServerSocket server = null;
   private Thread thread = null;
-  private DataInputStream streamIn = null;
 
   private ChatServer(int port) throws IOException {
     System.out.println("Please wait, binding to port " + port);
