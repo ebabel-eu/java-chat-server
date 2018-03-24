@@ -34,11 +34,13 @@ public class ChatClientThread extends Thread {
   }
 
   public void run() {
-    while (true) {
+    boolean errorFound = false;
+    while (!errorFound) {
       try {
         client.handle(streamIn.readUTF());
       } catch (IOException ex) {
         System.out.println("[ERROR] " + ex.getMessage());
+        errorFound = true;
         client.stop();
       }
     }
