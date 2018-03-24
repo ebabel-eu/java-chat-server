@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ChatClient {
-  private Socket socket = null;
+  private Socket socket;
+  private Thread thread = null;
   private DataInputStream streamIn = null;
   private DataOutputStream streamOut = null;
+  private ChatClientThread client = null;
 
   private ChatClient(String serverName, int serverPort) throws IOException {
     System.out.println("[INFO] Establishing connection. Please wait...");
