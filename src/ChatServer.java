@@ -29,14 +29,14 @@ public class ChatServer implements Runnable {
     }
   }
 
-  public void start() {
+  private void start() {
     if (thread == null) {
       thread = new Thread(this);
       thread.start();
     }
   }
 
-  public void stop() {
+  private void stop() {
     if (thread != null) {
       thread.stop();
       thread = null;
@@ -53,19 +53,24 @@ public class ChatServer implements Runnable {
     return -1;
   }
 
+  // Send message to each client.
+  void messageEachClient(String message) {
+    for (int i = 0; i < clientCount; i++) {
+      clients[i].send(message);
+    }
+
+    // Log message on server console.
+    System.out.println(message);
+  }
+
   public synchronized void handle(int ID, String input) {
     if (input.equals("/quit") || input.equals("/q")) {
-      clients[findClient(ID)].send("/q");
       remove(ID);
-    } else {
-      // Send message to each client.
-      for (int i = 0; i < clientCount; i++) {
-        clients[i].send(ID + ": " + input);
-      }
-
-      // Log message on server console.
-      System.out.println(ID + ": " + input);
+      messageEachClient("User " + ID + " has left.");
+      return;
     }
+
+    messageEachClient(ID + " says " + input);
   }
 
   // Removing thread.

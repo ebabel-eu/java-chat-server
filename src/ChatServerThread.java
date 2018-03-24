@@ -30,7 +30,7 @@ public class ChatServerThread extends Thread {
   }
 
   public void run() {
-    System.out.println("[INFO] Server thread " + ID + " running.");
+    server.messageEachClient("User " + ID + " has joined this chat.");
     boolean errorFound = false;
     while (!errorFound) {
       try {
