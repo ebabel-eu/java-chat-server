@@ -25,3 +25,14 @@ You can now type a message, press `ENTER` and see that message displayed on the 
 You may kill the server from the client by sending either the message `/q` or `/quit`
 
 The current version only supports one server and one single client.
+
+## How to kill this process on the server
+First, you need to find the pid of this process:
+```
+ps aux | grep java
+```
+
+You can then kill it:
+```
+kill -9 [the PID of your program's process]
+```
