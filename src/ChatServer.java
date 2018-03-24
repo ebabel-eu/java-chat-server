@@ -101,10 +101,12 @@ public class ChatServer implements Runnable {
   }
 
   public static void main(String args[]) throws IOException {
-    if (args.length != 1) {
-      throw new RuntimeException("[ERROR] Usage: java -cp [classpath] ChatServer [port-number]");
+    int port = 4444;
+
+    if (args.length == 1) {
+      port = Integer.parseInt(args[0]);
     }
 
-    new ChatServer(Integer.parseInt(args[0]));
+    new ChatServer(port);
   }
 }

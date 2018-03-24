@@ -30,12 +30,14 @@ public class ChatClient {
   }
 
   public static void main(String args[]) throws RuntimeException, IOException {
-    if (args.length != 2) {
-      throw new RuntimeException("[ERROR] Correct usage: see README.md");
+    String host = "localhost";
+    int port = 4444;
+
+    if (args.length == 2) {
+      host = args[0];
+      port = Integer.parseInt(args[1]);
     }
 
-    String host = args[0];
-    int port = Integer.parseInt(args[1]);
     new ChatClient(host, port);
   }
 }
