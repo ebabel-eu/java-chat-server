@@ -5,7 +5,8 @@ import java.net.Socket;
 import static java.lang.System.arraycopy;
 
 public class ChatServer implements Runnable {
-  private ChatServerThread clients[] = new ChatServerThread[50];
+  private int maxThreads = 50;
+  private ChatServerThread clients[] = new ChatServerThread[maxThreads];
   private ServerSocket server;
   private Thread thread = null;
   private int clientCount = 0;
