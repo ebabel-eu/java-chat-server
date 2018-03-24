@@ -1,16 +1,32 @@
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class ChatServerThread extends Thread {
+  private ChatServer server;
   private Socket socket;
   private int ID;
   private DataInputStream streamIn = null;
+  private DataOutputStream streamOut = null;
 
-  public ChatServerThread(Socket _socket) {
+  public ChatServerThread(ChatServer _server, Socket _socket) {
+    super();
+    server = _server;
     socket = _socket;
     ID = socket.getPort();
+  }
+
+  public void send(String msg) {
+    try {
+      streamOut.writeUTF(msg);
+      streamOut.flush();
+    } catch(IOException ex) {
+      server.remove(ID);
+      stop();
+    }
+  }
+
+  public int getID() {
+    return ID;
   }
 
   public void run() {
@@ -18,16 +34,23 @@ public class ChatServerThread extends Thread {
     boolean errorFound = false;
     while (!errorFound) {
       try {
-        System.out.println(streamIn.readUTF());
+        server.handle(ID, streamIn.readUTF());
       } catch (IOException e) {
+        server.remove(ID);
         errorFound = true;
-        close();
+        stop();
       }
     }
   }
 
   public void open() throws IOException {
-    streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+    streamIn = new DataInputStream(
+        new BufferedInputStream(socket.getInputStream())
+    );
+
+    streamOut = new DataOutputStream(
+        new BufferedOutputStream(socket.getOutputStream())
+    );
   }
 
   public void close() {
@@ -35,16 +58,24 @@ public class ChatServerThread extends Thread {
       try {
         System.out.println("[INFO] Server thread " + ID + " is closing.");
         socket.close();
-      } catch (IOException e) {
-        System.out.println("[ERROR]" + e.getMessage());
+      } catch (IOException ex) {
+        System.out.println("[ERROR] Closing socket. " + ex.getMessage());
       }
     }
 
     if (streamIn != null) {
       try {
         streamIn.close();
-      } catch (IOException e) {
-        System.out.println("[ERROR]" + e.getMessage());
+      } catch (IOException ex) {
+        System.out.println("[ERROR] Closing streamIn. " + ex.getMessage());
+      }
+    }
+
+    if (streamOut != null) {
+      try {
+        streamOut.close();
+      } catch (IOException ex) {
+        System.out.println("[ERROR] Closing streamOut. " + ex.getMessage());
       }
     }
   }
