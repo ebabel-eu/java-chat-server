@@ -1,7 +1,7 @@
 # java-chat-server
-Server side Java chat server, following a [tutorial](http://pirate.shu.edu/~wachsmut/Teaching/CSAS2214/Virtual/Lectures/chat-client-server.html) 
+Server side Java chat server, following a [Java socket tutorial](http://pirate.shu.edu/~wachsmut/Teaching/CSAS2214/Virtual/Lectures/chat-client-server.html).
 
-There are 2 main parts: the chat server and the chat client.
+[Another tutorial](https://www.callicoder.com/spring-boot-websocket-chat-example/) to consider, using Spring and HTML.
 
 ## Build both Chat server and client
 ```

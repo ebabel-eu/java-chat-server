@@ -6,7 +6,6 @@ public class ChatClient implements Runnable {
   private Thread thread = null;
   private BufferedReader streamIn = null;
   private ObjectOutputStream streamOut = null;
-  private ChatClientThread client = null;
   private String alias;
 
   private ChatClient(String serverName, int serverPort, String _alias) throws IOException {
@@ -42,34 +41,22 @@ public class ChatClient implements Runnable {
     streamOut.writeObject(alias);
 
     if (thread == null) {
-      client = new ChatClientThread(this, socket);
+      new ChatClientThread(this, socket);
       thread = new Thread(this);
       thread.start();
     }
   }
 
   public void stop() {
-    if (thread != null) {
-      thread = null;
-    }
+    thread = null;
 
     try {
-      if (streamIn != null) {
-        streamIn.close();
-      }
-
-      if (streamOut != null) {
-        streamOut.close();
-      }
-
-      if (socket != null) {
-        socket.close();
-      }
+      streamIn.close();
+      streamOut.close();
+      socket.close();
     } catch (IOException ex) {
       System.out.println("[ERROR] " + ex.getMessage());
     }
-
-    client.close();
   }
 
   public static void main(String args[]) throws RuntimeException, IOException {

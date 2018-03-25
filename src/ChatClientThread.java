@@ -6,7 +6,6 @@ public class ChatClientThread extends Thread {
   private Socket socket;
   private ChatClient client;
   private DataInputStream streamIn = null;
-  private boolean shouldStop = false;
 
   ChatClientThread(ChatClient _client, Socket _socket) {
     client = _client;
@@ -24,15 +23,10 @@ public class ChatClientThread extends Thread {
     }
   }
 
-  void close() {
-    shouldStop = true;
-    client.stop();
-  }
-
   public void run() {
     boolean errorFound = false;
 
-    while (!errorFound && !shouldStop) {
+    while (!errorFound) {
       try {
         client.handle(streamIn.readUTF());
       } catch (IOException ex) {
