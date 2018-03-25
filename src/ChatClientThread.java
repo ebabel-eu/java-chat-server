@@ -26,18 +26,12 @@ public class ChatClientThread extends Thread {
 
   void close() {
     shouldStop = true;
-
-    try {
-      if (streamIn != null) {
-        streamIn.close();
-      }
-    } catch (IOException ex) {
-      System.out.println("[ERROR] " + ex.getMessage());
-    }
+    client.stop();
   }
 
   public void run() {
     boolean errorFound = false;
+
     while (!errorFound && !shouldStop) {
       try {
         client.handle(streamIn.readUTF());

@@ -34,13 +34,12 @@ public class ChatServer implements Runnable {
     if (thread == null) {
       thread = new Thread(this);
       thread.start();
-      System.out.println("[INFO] Chat server has started.");
+      System.out.println("[INFO] Server started.");
     }
   }
 
   private void stop() {
     if (thread != null) {
-      thread.stop();
       thread = null;
     }
   }
@@ -72,7 +71,7 @@ public class ChatServer implements Runnable {
       return;
     }
 
-    messageEachClient(alias + " says " + input);
+    messageEachClient(alias + ": " + input);
   }
 
   // Removing thread.

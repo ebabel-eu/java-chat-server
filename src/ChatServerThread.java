@@ -22,7 +22,6 @@ public class ChatServerThread extends Thread {
       streamOut.flush();
     } catch(IOException ex) {
       server.remove(ID);
-      stop();
     }
   }
 
@@ -31,7 +30,7 @@ public class ChatServerThread extends Thread {
   }
 
   public void run() {
-    server.messageEachClient(alias + " has joined this chat.");
+    server.messageEachClient(alias + " is online.");
     boolean errorFound = false;
     while (!errorFound) {
       try {
@@ -39,7 +38,6 @@ public class ChatServerThread extends Thread {
       } catch (IOException e) {
         server.remove(ID);
         errorFound = true;
-        stop();
       }
     }
   }

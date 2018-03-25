@@ -50,7 +50,6 @@ public class ChatClient implements Runnable {
 
   public void stop() {
     if (thread != null) {
-      thread.stop();
       thread = null;
     }
 
@@ -74,14 +73,20 @@ public class ChatClient implements Runnable {
   }
 
   public static void main(String args[]) throws RuntimeException, IOException {
+    String alias = "John Smith";
     String host = "localhost";
     int port = 4444;
-    String alias = "John Smith";
+
+    if (args.length >= 1) {
+      alias = args[0];
+    }
+
+    if (args.length >= 2) {
+      host = args[1];
+    }
 
     if (args.length == 3) {
-      host = args[0];
-      port = Integer.parseInt(args[1]);
-      alias = args[2];
+      port = Integer.parseInt(args[2]);
     }
 
     new ChatClient(host, port, alias);
