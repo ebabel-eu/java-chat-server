@@ -7,9 +7,9 @@ public class ChatServerThread extends Thread {
   private int ID;
   private ObjectInputStream streamIn = null;
   private DataOutputStream streamOut = null;
-  String alias;
+  private String alias;
 
-  public ChatServerThread(ChatServer _server, Socket _socket) {
+  ChatServerThread(ChatServer _server, Socket _socket) {
     super();
     server = _server;
     socket = _socket;
