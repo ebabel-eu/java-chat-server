@@ -34,6 +34,7 @@ public class ChatServer implements Runnable {
     if (thread == null) {
       thread = new Thread(this);
       thread.start();
+      System.out.println("[INFO] Chat server has started.");
     }
   }
 
@@ -64,14 +65,14 @@ public class ChatServer implements Runnable {
     System.out.println(message);
   }
 
-  public synchronized void handle(int ID, String input) {
+  public synchronized void handle(int ID, String input, String alias) {
     if (input.equals("/quit") || input.equals("/q")) {
       remove(ID);
-      messageEachClient("User " + ID + " has left.");
+      messageEachClient(alias + " has left.");
       return;
     }
 
-    messageEachClient(ID + " says " + input);
+    messageEachClient(alias + " says " + input);
   }
 
   // Removing thread.

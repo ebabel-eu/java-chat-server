@@ -71,7 +71,6 @@ public class ChatClient implements Runnable {
     }
 
     client.close();
-    client.stop();
   }
 
   public static void main(String args[]) throws RuntimeException, IOException {

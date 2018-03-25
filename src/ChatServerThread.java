@@ -35,7 +35,7 @@ public class ChatServerThread extends Thread {
     boolean errorFound = false;
     while (!errorFound) {
       try {
-        server.handle(ID, streamIn.readUTF());
+        server.handle(ID, streamIn.readUTF(), alias);
       } catch (IOException e) {
         server.remove(ID);
         errorFound = true;
