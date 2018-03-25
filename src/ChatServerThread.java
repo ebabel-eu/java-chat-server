@@ -5,8 +5,9 @@ public class ChatServerThread extends Thread {
   private ChatServer server;
   private Socket socket;
   private int ID;
-  private DataInputStream streamIn = null;
+  private ObjectInputStream streamIn = null;
   private DataOutputStream streamOut = null;
+  String alias;
 
   public ChatServerThread(ChatServer _server, Socket _socket) {
     super();
@@ -30,7 +31,7 @@ public class ChatServerThread extends Thread {
   }
 
   public void run() {
-    server.messageEachClient("User " + ID + " has joined this chat.");
+    server.messageEachClient(alias + " has joined this chat.");
     boolean errorFound = false;
     while (!errorFound) {
       try {
@@ -44,9 +45,13 @@ public class ChatServerThread extends Thread {
   }
 
   public void open() throws IOException {
-    streamIn = new DataInputStream(
-        new BufferedInputStream(socket.getInputStream())
-    );
+    streamIn = new ObjectInputStream(socket.getInputStream());
+
+    try {
+      alias = (String) streamIn.readObject();
+    } catch (ClassNotFoundException ex) {
+      System.out.println("[ERROR] " + ex.getMessage());
+    }
 
     streamOut = new DataOutputStream(
         new BufferedOutputStream(socket.getOutputStream())
@@ -54,29 +59,20 @@ public class ChatServerThread extends Thread {
   }
 
   public void close() {
-    if (socket != null) {
-      try {
-        System.out.println("[INFO] Server thread " + ID + " is closing.");
+    try {
+      if (socket != null) {
         socket.close();
-      } catch (IOException ex) {
-        System.out.println("[ERROR] Closing socket. " + ex.getMessage());
       }
-    }
 
-    if (streamIn != null) {
-      try {
+      if (streamIn != null) {
         streamIn.close();
-      } catch (IOException ex) {
-        System.out.println("[ERROR] Closing streamIn. " + ex.getMessage());
       }
-    }
 
-    if (streamOut != null) {
-      try {
+      if (streamOut != null) {
         streamOut.close();
-      } catch (IOException ex) {
-        System.out.println("[ERROR] Closing streamOut. " + ex.getMessage());
       }
+    } catch (IOException ex) {
+      System.out.println("[ERROR] " + ex.getMessage());
     }
   }
 }

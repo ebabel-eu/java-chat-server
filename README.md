@@ -17,8 +17,10 @@ To end the execution, use the keys `CTRL C` in Terminal.
 
 ## Run the chat client
 ```
-java -cp ./out/production/java-chat-server/ ChatClient localhost 4444
+java -cp ./out/production/java-chat-server/ ChatClient localhost 4444 "John Smith"
 ```
+
+`"John Smith""` is the alias by which you want to be known in the chat.
 
 You can now type a message, press `ENTER` and see that message displayed on the Chat Server.
 

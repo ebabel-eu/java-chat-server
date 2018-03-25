@@ -1,19 +1,18 @@
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
 public class ChatClient implements Runnable {
   private Socket socket;
   private Thread thread = null;
   private BufferedReader streamIn = null;
-  private DataOutputStream streamOut = null;
+  private ObjectOutputStream streamOut = null;
   private ChatClientThread client = null;
+  private String alias;
 
-  private ChatClient(String serverName, int serverPort) throws IOException {
+  private ChatClient(String serverName, int serverPort, String _alias) throws IOException {
     System.out.println("Loading, please wait...");
 
+    alias = _alias;
     socket = new Socket(serverName, serverPort);
     start();
   }
@@ -39,7 +38,8 @@ public class ChatClient implements Runnable {
 
   private void start() throws IOException {
     streamIn = new BufferedReader(new InputStreamReader(System.in));
-    streamOut = new DataOutputStream(socket.getOutputStream());
+    streamOut = new ObjectOutputStream(socket.getOutputStream());
+    streamOut.writeObject(alias);
 
     if (thread == null) {
       client = new ChatClientThread(this, socket);
@@ -77,12 +77,14 @@ public class ChatClient implements Runnable {
   public static void main(String args[]) throws RuntimeException, IOException {
     String host = "localhost";
     int port = 4444;
+    String alias = "John Smith";
 
-    if (args.length == 2) {
+    if (args.length == 3) {
       host = args[0];
       port = Integer.parseInt(args[1]);
+      alias = args[2];
     }
 
-    new ChatClient(host, port);
+    new ChatClient(host, port, alias);
   }
 }
